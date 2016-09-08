@@ -1,0 +1,823 @@
+//================================THIRT PARTY==========================
+
+// ............................................................
+// .for
+
+.for(@i, @n) {.-each(@i)}
+.for(@n)     when (isnumber(@n)) {.for(1, @n)}
+.for(@i, @n) when not (@i = @n)  {
+    .for((@i + (@n - @i) / abs(@n - @i)), @n);
+}
+
+// ............................................................
+// .for-each
+.for(@array)   when (default()) {.for-impl_(length(@array))}
+.for-impl_(@i) when (@i > 1)    {.for-impl_((@i - 1))}
+.for-impl_(@i) when (@i > 0)    {.-each(extract(@array, @i))}
+
+
+// rollhelper
+
+.roll_wrapper() {
+  display: block;
+  .border-box();
+}
+
+//reset tool for ul li
+.reset_ul_li() {
+  background: none repeat scroll 0 0 transparent;
+  border: 0 none;
+  font-size: 100%;
+  margin: 0;
+  outline: 0 none;
+  padding: 0;
+  vertical-align: baseline;
+  list-style-type: none;
+}
+
+.clear_fix{
+  clear: both;
+  display: table;
+  white-space: normal;
+  content: ' ';
+}
+
+//======================================BLOCK CHILD ABSOLUTE========================================================
+.block_absolute(){
+  .init(@init,@child){
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    margin: 0;
+    @init();
+    >*{
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: block;
+      margin: auto;
+      @child();
+    }
+  }
+}
+//======================================JUST SINGLE ABSOLUTE WRAPPER========================================================
+
+.just_absolute(){
+  .init(@init){
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    right:0;
+    left:0;
+    bottom: 0;
+    margin: 0 auto;
+    @init();
+  };
+}
+
+//======================================JUST INLINE WRAPPER========================================================
+.just_inline(){
+  .init(@init){
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    @init();
+  }
+}
+
+//======================================JUST BLOCK WRAPPER========================================================
+.block_single(){
+  .init(@init){
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    @init();
+    &:after{
+      display: table;
+      content: ' ';
+    };
+    &:before{
+      display: table;
+      content: ' ';
+    }
+  }
+}
+
+//======================================INLINE BLOCK CELL========================================================
+.inline_block_cell(){
+  .init(@init,@child){
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-sizing: border-box;
+    margin: 0;
+    @init();
+    &:after{
+      display: table;
+      content: ' ';
+    };
+    &:before{
+      display: table;
+      content: ' ';
+    }
+    >*{
+      display: block;
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+      float: left;
+      margin:0;
+      @child();
+    }
+  }
+}
+
+//======================================INLINE-BLOCK HORIZONTAL FIXED====================================
+.inline_block_hor_fixed(){
+  .init(@init,@child){
+    display: block;
+    position: absolute;
+    margin: 0 auto;
+    overflow:hidden;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    @init();
+
+    >*{
+      white-space: normal;
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      @child();
+    }
+  }
+}
+
+//======================================LIST BLOCK LAYOUT ===============================================
+.block_list(){
+  .init(@init,@child){
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    @init();
+    >*{
+      display: block;
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+      @child();
+    }
+  }
+}
+//======================================INLINE LAYOUT====================================================
+.inline_box() {
+  .init(@init,@inline){
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border: none;
+    padding: 0;
+    @init();
+    &:after {
+      display: block;
+      content: " ";
+      clear: both;
+    }
+    >*{
+      width: auto;
+      height: auto;
+      display: inline-block;
+      float: left;
+      @inline();
+    }
+    &:after{
+      display: table;
+      content: ' ';
+    };
+    &:before{
+      display: table;
+      content: ' ';
+    }
+  }
+}
+
+.inline_block(){
+  .init(@init,@inline){
+    display: block;
+    width: 100px;
+    height: 50px;
+    overflow: hidden;
+    @init();
+    >*{
+       display: inline-block;
+        width: 10%;
+        height: 100%;
+        float: left;
+        @inline();
+    }
+  }
+}
+
+//======================================TABLE LAYOUT====================================================
+.table-horizontal() {
+  .init(@init,@row,@cell){
+    display: table;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    @init();
+    > * {
+      display: table-row;
+      height: 100%;
+      @row();
+      > * {
+        display: table-cell;
+        @cell();
+      }
+    }
+  }
+
+  .child-top-center {
+    vertical-align: top;
+  }
+
+  .child-top-right {
+    vertical-align: top;
+    text-align: right;
+  }
+  .child-top-left {
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .child-center-left {
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  .child-center-right {
+    vertical-align: middle;
+    text-align: right;
+  }
+
+  .child-center-center {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .child-bottom-center {
+    vertical-align: bottom;
+    text-align: center;
+  }
+
+  .child-bottom-right {
+    vertical-align: bottom;
+    text-align: right;
+  }
+
+  .child-bottom-left {
+    vertical-align: bottom;
+    text-align: left;
+  }
+
+  .child-auto {
+    width: 1%;
+  }
+
+}
+
+.table-vertical() {
+  .init(@init,@row){
+    display: table;
+    width: 100%;
+    height: 100%;
+    @init();
+    > * {
+      display: table-row;
+      @row();
+    }
+  }
+
+  .child-top-left {
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .child-top-center {
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .child-top-right {
+    vertical-align: top;
+    text-align: right;
+  }
+
+  .child-auto {
+    width: 1%;
+  }
+}
+
+//==================================== NEW RELEASE V1 ===============================
+.r-menu-table(){
+  .init(@init,@cell){
+    display: table;
+    width: 100%;
+    height: 50px;
+    margin: 0;
+    @init();
+    
+    >*{
+      display: table-cell;
+      margin: 0;
+      @cell();
+    }
+  }
+  .child-top-center {
+    vertical-align: top;
+  }
+
+  .child-top-right {
+    vertical-align: top;
+    text-align: right;
+  }
+  .child-top-left {
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .child-center-left {
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  .child-center-right {
+    vertical-align: middle;
+    text-align: right;
+  }
+
+  .child-center-center {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .child-bottom-center {
+    vertical-align: bottom;
+    text-align: center;
+  }
+
+  .child-bottom-right {
+    vertical-align: bottom;
+    text-align: right;
+  }
+
+  .child-bottom-left {
+    vertical-align: bottom;
+    text-align: left;
+  }
+
+  .child-auto {
+    width: 1%;
+  }
+}
+
+.r-list-table(){
+  .init(@init,@row){
+    display: table;
+    width: 100%;
+    height: 50px;
+    @init();
+    >*{
+      display: table-row;
+      height: 100%;
+      @row();
+    }
+  }
+  
+  .child-top-left {
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .child-top-center {
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .child-top-right {
+    vertical-align: top;
+    text-align: right;
+  }
+
+  .child-auto {
+    width: 1%;
+  }
+}
+
+//===========================================UL LI LAYOUT=======================================
+.ul-horizontal() {
+  
+  .init(@init,@cell){
+    .reset-ul-li();
+    @init();
+    display: table;
+    
+    > * {
+      .reset-ul-li();
+      display: table-cell;
+      height: 100%;
+      //set default gravity
+      .ul-horizontal.child-center-center();
+      @cell();
+    }
+  }
+
+  .child-top-left {
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .child-top-center {
+    vertical-align: top;
+  }
+
+  .child-top-right {
+    vertical-align: top;
+    text-align: right;
+  }
+
+  .child-center-left {
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  .child-center-right {
+    vertical-align: middle;
+    text-align: right;
+  }
+
+  .child-center-center {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .child-bottom-center {
+    vertical-align: bottom;
+    text-align: center;
+  }
+
+  .child-bottom-right {
+    vertical-align: bottom;
+    text-align: right;
+  }
+
+  .child-bottom-left {
+    vertical-align: bottom;
+    text-align: left;
+  }
+}
+
+.ul-vertical() {
+  .init(@init,@row){
+    //reset element
+    .reset_ul_li();
+    display: block;
+    @init();
+
+    > * {
+      //reset element
+      .reset_ul_li();
+      display: block;
+      height: auto;
+      overflow: hidden;
+      //set default gravity
+      //.ul-horizontal.child-center-center();
+      .ul-vertical.child-top-center();
+      @row();
+    }
+  }
+  .child-top-center {
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .child-top-right {
+    vertical-align: top;
+    text-align: right;
+  }
+
+  .child-top-left {
+    vertical-align: top;
+    text-align: left;
+  }
+}
+
+.gravity-right {
+  float: right;
+}
+
+.gravity-center {
+  margin: 0 auto;
+}
+
+//===========================================BUTTON COMPONENT=======================================
+.roll_btn() {
+  border: 0;
+  padding: 10px;
+  background: transparent;
+}
+
+.circle {
+  border-radius: 50%;
+
+}
+
+.red {
+  background: #ff8a80 !important;
+}
+
+.blue {
+  background: #42A5F5 !important;
+}
+
+.black {
+  background: #000000 !important;
+}
+
+.silver {
+  background: #c0c0c0 !important;
+}
+
+.white {
+  background: #ffffff !important;
+}
+
+.red-color {
+  color: #ce8483 !important;
+}
+
+.white-color {
+  color: #ffffff !important;
+}
+
+.black-color {
+  color: #000000 !important;
+}
+
+//===========================================BOX IMAGE ===========================================
+//DEPRECATED
+/*.box-img {
+  .table-horizontal.initialize();
+  box-sizing: border-box;
+  padding: 2px;
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  cursor: pointer;
+  .box-img-item {
+    .table-horizontal.child-center-center();
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+    background-size: 94%;
+    background-position: center;
+  }
+}*/
+
+.box-img(){
+  display: block;
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  .box-img-item {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+  }
+}
+
+.box_img(@init,@ext){
+  display: block;
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  .box_img_item(){
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+  }
+  @init();
+  @ext();
+}
+
+//===================================OTHER ================
+.border-box() {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+//DEPRECATED CLASS METHOD
+.object_aspect_ratio() {
+  display: inline-block;
+  position: relative;
+  &:after {
+    display: block;
+    content: '';
+    padding-top: 50%; //sample
+  }
+
+}
+
+//NEW VERSION OBJECT ASPECT RATIO
+//BUTUH REQUIREMENT CHILDREN ABSOLUTE LAYOUT
+.set_aspect_ratio(@init,@after){
+   display: inline-block;
+  position: relative;
+  @init();
+  &:after {
+    display: block;
+    content: '';
+    padding-top: 50%; //sample
+    @after();
+  }
+}
+
+.set_absolute_layout(@init){
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  @init();
+}
+
+.wrap_aspect_ratio() {
+  .object_aspect_ratio();
+  width: 100%;
+  > * {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
+//======================== input group ===========================
+//simple input group
+/*.input_box{
+  .table-horizontal.initialize();
+  height: 30px;
+  input{
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  >div{
+    .table-horizontal.child-center-left();
+    position: relative;
+  }
+}*/
+
+.input_box(){
+  .init(@init,@child){
+    display: block;
+    width: auto;
+    height: 50px;
+    position: relative;
+    >*{
+      display: inline-block;
+      width: 50%;
+      height: 100%;
+      float: left;
+      padding: 0;
+      margin:0;
+      position: relative;
+      vertical-align: middle;
+    }
+  }
+}
+
+//==========================HELPER FUNCTION =========================//
+
+.setWidth(@widthnya,@muchdiv){
+  width: @widthnya / @muchdiv;
+}
+
+.setHeight(@heightnya,@muchdiv){
+  height: @heightnya / @muchdiv;
+}
+
+.setmedia-screen-lands(@min,@max,@ratio,@whatcss){
+  /* Landscape */
+  //(max-device-width: @max) khusus gadged
+  //(max-width: @max) semua termasuk desktop
+  //and (-webkit-min-device-pixel-ratio: @ratio) 
+  @media only screen 
+    and (min-width: @min) 
+    and (max-width: @max) 
+    and (orientation: landscape) {
+        @whatcss();
+    }
+}
+
+.setmedia-screen-pot(@min,@max,@ratio,@whatcss){
+  /* Portrait */
+  //(max-device-width: @max) khusus gadged
+  //(max-width: @max) semua termasuk desktop
+  //and (-webkit-min-device-pixel-ratio: @ratio) 
+  @media only screen 
+    and (min-width: @min) 
+    and (max-width: @max) 
+    and (orientation: portrait) {
+        @whatcss();
+    }
+}
+
+.setmedia-screen(@min,@max,@ratio,@whatcss){
+  /* Portrait */
+  //(max-device-width: @max) khusus gadged
+  //(max-width: @max) semua termasuk desktop
+  //and (-webkit-min-device-pixel-ratio: @ratio) 
+  //and (min-device-width: @min) 
+  @media only screen 
+    and (min-width: @min) 
+    and (max-width: @max)  {
+        @whatcss();
+    }
+}
+
+.setmedia_only_max(@max,@ratio,@whatcss){
+   @media only screen 
+    and (max-width: @max)  {
+        @whatcss();
+    }
+}
+
+//still developing
+.setfont_family(@fontfamilyname,@array){
+  .for(@array); .-each(@name) {
+        @font-face{
+          font-family: @fontfamilyname;
+          //font-style: normal;
+          //font-weight: bold;
+          //src: url('fonts/Roboto/Roboto-Bold.ttf');
+          //src: local('Roboto Bold'), url('fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+        }
+        //&.@{name} {background: @@name}
+    }
+}
+
+
+
