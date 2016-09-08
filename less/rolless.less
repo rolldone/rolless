@@ -785,7 +785,7 @@
     }
 }
 
-.setmedia-screen(@min,@max,@ratio,@whatcss){
+.setmedia_screen(@min,@max,@ratio,@whatcss){
   /* Portrait */
   //(max-device-width: @max) khusus gadged
   //(max-width: @max) semua termasuk desktop
@@ -801,6 +801,13 @@
 .setmedia_only_max(@max,@ratio,@whatcss){
    @media only screen 
     and (max-width: @max)  {
+        @whatcss();
+    }
+}
+
+.setmedia_only_min(@min,@ratio,@whatcss){
+  @media only screen 
+    and (min-width: @min)  {
         @whatcss();
     }
 }
