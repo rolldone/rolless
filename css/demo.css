@@ -157,14 +157,18 @@ body {
   }
 }
 .wrapper_demo .side_wrap {
-  width: 0%;
+  width: 300px;
   background: #000;
 }
 @media only screen and (min-width: 1500px) {
   .wrapper_demo .side_wrap {
     width: 15%;
-    padding-right: 13px;
-    padding-left: 10px;
+    box-sizing: border-box;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .wrapper_demo .side_wrap {
+    width: 100%;
     box-sizing: border-box;
   }
 }
@@ -266,6 +270,11 @@ body {
   width: 40px;
   height: 40px;
   float: right;
+}
+@media only screen and (min-width: 1500px) {
+  .menu_icon {
+    visibility: hidden;
+  }
 }
 .menu_icon > div {
   width: 100%;
@@ -666,5 +675,15 @@ body {
   vertical-align: baseline;
   list-style-type: none;
   min-height: 50px;
+  height: auto;
+}
+.wrap_list {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
   height: auto;
 }
