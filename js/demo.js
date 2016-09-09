@@ -23,7 +23,23 @@
 
 	function close(tara){
 		$(tara).parents('.content_body').animate({ 'margin-left': '0%' }, 300);
-		
 	}
+	var defineTop = 0;
+	$('.menu_item a').click(function(e){
+		e.preventDefault();
+    	$('.menu_icon').trigger('click');
+    	if(defineTop > $($(this).attr('href')).offset().top){
+    		defineTop += $($(this).attr('href')).offset().top;
+    	}else if(defineTop == 0){
+    		defineTop += $($(this).attr('href')).offset().top;
+    	}else{
+    		defineTop += $($(this).attr('href')).offset().top;
+    	}
+    	console.log(defineTop +" "+$($(this).attr('href')).offset().top);
+		//var gg = $(this).parents('.wrapper_demo').find('.content_body').scrollTop;
+		$(this).parents('.wrapper_demo').find('.content_body').animate({ 
+        	scrollTop: defineTop
+    	}, 600);
+	});
 })();
 
